@@ -1,14 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 import math
-import sys
 import inkex
 from simpletransform import Transform
-
-sys.path.append('/usr/share/inkscape/extensions')
 inkex.localization.localize()
-
 
 class IsometricProjectionTools(inkex.Effect):
     """
@@ -68,21 +63,9 @@ class IsometricProjectionTools(inkex.Effect):
     }
 
     def __init__(self):
-        """
-        Constructor.
-        """
-
         inkex.Effect.__init__(self)
-
-        self.arg_parser.add_argument(
-            '-c', '--conversion',
-            dest='conversion', default='top',
-            help='Conversion to perform: (top|left|right)')
-        self.arg_parser.add_argument(
-            '-r', '--reverse',
-            dest='reverse', default="false",
-            help='Reverse the transformation from isometric projection ' +
-            'to flat 2D')
+        self.arg_parser.add_argument('--conversion', default='top', help='Conversion to perform: (top|left|right)')
+        self.arg_parser.add_argument('--reverse', default="false", help='Reverse the transformation from isometric projection to flat 2D')
 
     def getTransformCenter(self, midpoint, node):
         """
@@ -136,12 +119,6 @@ class IsometricProjectionTools(inkex.Effect):
             node.set(self.attrTransformCenterY, y)
 
     def effect(self):
-        """
-        Apply the transformation. If an element already has a transformation
-        attribute, it will be combined with the transformation matrix for the
-        requested conversion.
-        """
-
         if self.options.reverse == "true":
             conversion = "from_" + self.options.conversion
         else:
@@ -183,5 +160,4 @@ class IsometricProjectionTools(inkex.Effect):
             self.moveTransformationCenter(node, midpoint, center_new)
 
 # Create effect instance and apply it.
-effect = IsometricProjectionTools()
-effect.run()
+IsometricProjectionTools().run()
